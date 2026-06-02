@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Aromix is an AI fragrance discovery app for building scent profiles, finding colognes, comparing layering combos, and managing a personal shelf."
+    />
+    <title>Aromix</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#workspace">Skip to app</a>
+    <main class="app-shell" id="top">
+      <header class="topbar" aria-label="Aromix navigation">
+        <a class="brand-lockup" href="#top" aria-label="Aromix home">
+          <span class="brand-mark" aria-hidden="true">A</span>
+          <span>
+            <strong>Aromix</strong>
+            <small>AI fragrance studio</small>
+          </span>
+        </a>
+        <nav class="app-nav" aria-label="Primary sections">
+          <a href="#chatPanel">Aromix AI</a>
+          <a href="#builderPanel">Builder</a>
+          <a href="#discoveryPanel">Discovery</a>
+          <a href="#layeringPanel">Layering</a>
+          <a href="#shelfPanel">My Shelf</a>
+        </nav>
+        <div class="topbar-actions">
+          <span class="system-pill" id="systemStatus">Checking data</span>
+          <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">Theme</button>
+        </div>
+      </header>
+
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Fragrance copilot</p>
+          <h1>Aromix AI</h1>
+          <p class="hero-copy">
+            Decide what to buy, wear, layer, or avoid with a fragrance copilot
+            that uses real scent profiles, live prices, and your shelf.
+          </p>
+          <div class="hero-actions" aria-label="Quick actions">
+            <a class="primary-link" href="#chatPanel">Ask Aromix AI</a>
+            <a class="soft-link" href="#shelfPanel">Open My Shelf</a>
+          </div>
+        </div>
+        <div class="hero-panel" aria-label="Current scent preview">
+          <span class="mist mist-a"></span>
+          <span class="mist mist-b"></span>
+          <span class="mist mist-c"></span>
+          <div class="blend-orbit" id="blendOrbit" aria-hidden="true"></div>
+          <div class="bottle">
+            <div class="cap"></div>
+            <div class="glass">
+              <span class="liquid-layer top-liquid" id="topLiquid"></span>
+              <span class="liquid-layer middle-liquid" id="middleLiquid"></span>
+              <span class="liquid-layer base-liquid" id="baseLiquid"></span>
+              <span id="bottleFill"></span>
+            </div>
+          </div>
+          <div class="blend-identity">
+            <p id="heroBlendName">Untitled blend</p>
+            <span id="heroBlendProfile">No notes selected yet</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="chat-panel" id="chatPanel" aria-label="Aromix AI fragrance copilot">
+        <div class="chat-intro">
+          <p class="eyebrow">Aromix AI</p>
+          <h2>Your personal fragrance copilot</h2>
+          <p>
+            Ask what to buy, wear, layer, or avoid. Aromix AI routes your request through fragrance profiles,
+            live shopping, your shelf, and the layering engine before it answers.
+          </p>
+        </div>
+
+        <div class="chat-shell">
+          <div class="chat-history" id="chatHistory" aria-live="polite"></div>
+
+          <div class="prompt-chips" aria-label="Example prompts">
+            <button class="prompt-chip" type="button" data-prompt="Find me a winter date-night cologne under $80">Winter date-night under $80</button>
+            <button class="prompt-chip" type="button" data-prompt="Should I buy Bleu de Chanel?">Should I buy Bleu de Chanel?</button>
+            <button class="prompt-chip" type="button" data-prompt="Can I layer Sauvage with Vanilla 28?">Layer Sauvage + Vanilla 28</button>
+            <button class="prompt-chip" type="button" data-prompt="What should I wear today?">What should I wear today?</button>
+            <button class="prompt-chip" type="button" data-prompt="Find me an Arabic vanilla fragrance">Arabic vanilla fragrance</button>
+            <button class="prompt-chip" type="button" data-prompt="What is missing from my shelf?">What is missing from my shelf?</button>
+            <button class="prompt-chip" type="button" data-prompt="Find a cheaper Althair alternative">Cheaper Althair alternative</button>
+          </div>
+
+          <form class="chat-form" id="chatForm">
+            <label class="shelf-toggle">
+              <input id="chatUseShelf" type="checkbox" checked />
+              <span>Use My Shelf</span>
+            </label>
+            <input
+              id="chatInput"
+              type="text"
+              placeholder="Ask what to buy, wear, layer, or avoid..."
+              autocomplete="off"
+            />
+            <button id="chatSend" type="submit">Send</button>
+            <button class="ghost-button" id="clearChatButton" type="button">Clear Chat</button>
+          </form>
+        </div>
+      </section>
+
+      <section class="quick-start" aria-label="Start with a workflow">
+        <button class="quick-card" type="button" data-jump="builderPanel">
+          <span>01</span>
+          <strong>Build a signature profile</strong>
+          <small>Pick notes, score the blend, then explore matching fragrances.</small>
+        </button>
+        <button class="quick-card" type="button" data-focus="noteSearch" data-query="cinnamon">
+          <span>02</span>
+          <strong>Discover by note or vibe</strong>
+          <small>Try cinnamon, fresh summer, vanilla clubbing, or blue fragrance.</small>
+        </button>
+        <button class="quick-card" type="button" data-jump="layeringPanel">
+          <span>03</span>
+          <strong>Score a layering combo</strong>
+          <small>Compare two colognes using real notes before you spray.</small>
+        </button>
+      </section>
+
+      <section class="workspace" id="workspace">
+        <aside class="builder" id="builderPanel">
+          <div class="section-heading">
+            <p class="eyebrow">Step 1</p>
+            <h2>Scent Builder</h2>
+          </div>
+          <input
+            class="note-search"
+            id="noteSearch"
+            type="search"
+            placeholder="Search notes, accords, brands, or a vibe"
+            autocomplete="off"
+          />
+          <div class="search-suggestions" id="searchSuggestions"></div>
+
+          <div class="note-group" data-layer="top">
+            <div class="group-title">
+              <h3>Top Notes</h3>
+              <span>opening</span>
+            </div>
+            <div class="chips" id="topNotes"></div>
+          </div>
+
+          <div class="note-group" data-layer="middle">
+            <div class="group-title">
+              <h3>Middle Notes</h3>
+              <span>heart</span>
+            </div>
+            <div class="chips" id="middleNotes"></div>
+          </div>
+
+          <div class="note-group" data-layer="base">
+            <div class="group-title">
+              <h3>Base Notes</h3>
+              <span>dry-down</span>
+            </div>
+            <div class="chips" id="baseNotes"></div>
+          </div>
+
+          <div class="actions">
+            <button class="secondary-button" id="randomizeButton" type="button">Shuffle</button>
+            <button class="ghost-button" id="clearButton" type="button">Clear</button>
+          </div>
+        </aside>
+
+        <section class="results">
+          <div class="score-band">
+            <div>
+              <p class="eyebrow">Compatibility</p>
+              <h2 id="scoreLabel">Pick notes</h2>
+            </div>
+            <div class="score-ring" aria-label="Compatibility score">
+              <span id="scoreNumber">0</span>
+              <small>/10</small>
+            </div>
+          </div>
+
+          <div class="result-grid">
+            <article class="panel">
+              <div class="panel-heading">
+                <h3>Scent Profile</h3>
+                <span id="profileTag">Waiting</span>
+              </div>
+              <p id="descriptionText">
+                Choose at least one top, middle, and base note to generate a profile.
+              </p>
+              <div class="accords" id="accordList"></div>
+            </article>
+
+            <article class="panel">
+              <div class="panel-heading">
+                <h3>Vibe Meter</h3>
+                <span id="seasonTag">Any season</span>
+              </div>
+              <div class="vibe-list" id="vibeList"></div>
+            </article>
+
+            <article class="panel wide" id="discoveryPanel">
+              <div class="panel-heading">
+                <h3>Fragrance Discovery</h3>
+                <span id="matchCount">0 matches</span>
+              </div>
+              <div class="matches" id="matches"></div>
+            </article>
+
+            <article class="panel wide">
+              <div class="panel-heading">
+                <h3>Live Shopping</h3>
+                <span id="priceStatus">Verified fragrance shopping</span>
+              </div>
+              <form class="tool-form" id="priceSearchForm">
+                <input
+                  id="priceQuery"
+                  name="priceQuery"
+                  type="text"
+                  placeholder="Search Dior Sauvage, Bleu de Chanel, Vanilla 28..."
+                  autocomplete="off"
+                />
+                <button type="submit">Search</button>
+              </form>
+              <div class="shopping-profile" id="shoppingProfile"></div>
+              <div class="price-results" id="priceResults"></div>
+            </article>
+
+            <article class="panel wide">
+              <div class="panel-heading">
+                <h3>Dupe Finder</h3>
+                <span id="dupeStatus">Niche to affordable</span>
+              </div>
+              <form class="tool-form" id="dupeForm">
+                <input
+                  id="dupeQuery"
+                  name="dupeQuery"
+                  type="text"
+                  placeholder="Search PDM Althair, Aventus, Baccarat Rouge 540..."
+                  autocomplete="off"
+                />
+                <button type="submit">Find Dupe</button>
+              </form>
+              <div class="dupe-results" id="dupeResults"></div>
+            </article>
+
+            <article class="panel wide" id="layeringPanel">
+              <div class="panel-heading">
+                <h3>Layering Analysis</h3>
+                <span id="layeringStatus">Two colognes</span>
+              </div>
+              <form class="layer-form" id="layerForm">
+                <input id="fragOne" type="text" placeholder="First cologne" autocomplete="off" />
+                <input id="fragTwo" type="text" placeholder="Second cologne" autocomplete="off" />
+                <button type="submit">Score Combo</button>
+              </form>
+              <div class="layer-result" id="layerResult"></div>
+            </article>
+
+            <article class="panel wide">
+              <div class="panel-heading">
+                <h3>Save Creation</h3>
+                <span>local collection</span>
+              </div>
+              <form class="save-form" id="saveForm">
+                <input
+                  id="blendName"
+                  name="blendName"
+                  type="text"
+                  placeholder="Name your scent"
+                  maxlength="34"
+                  autocomplete="off"
+                />
+                <button type="submit">Save</button>
+              </form>
+              <div class="collection" id="collection"></div>
+            </article>
+
+            <article class="panel wide" id="shelfPanel">
+              <div class="panel-heading">
+                <h3>My Shelf</h3>
+                <span id="shelfSummary">Curated cabinet</span>
+              </div>
+              <form class="shelf-form" id="shelfForm">
+                <input id="shelfName" type="text" placeholder="Add a cologne" autocomplete="off" />
+                <select id="shelfType" aria-label="Shelf type">
+                  <option value="Owned">Owned</option>
+                  <option value="Want">Want</option>
+                  <option value="Sampled">Sampled</option>
+                </select>
+                <button type="submit">Add</button>
+              </form>
+              <div class="shelf-suggestions" id="shelfSuggestions"></div>
+              <div class="shelf-tags" id="shelfTagOptions">
+                <button class="tag-chip active" type="button" data-tag="Daily Wear">Daily Wear</button>
+                <button class="tag-chip" type="button" data-tag="Date Night">Date Night</button>
+                <button class="tag-chip" type="button" data-tag="Gym">Gym</button>
+                <button class="tag-chip" type="button" data-tag="Office">Office</button>
+                <button class="tag-chip" type="button" data-tag="Clubbing">Clubbing</button>
+                <button class="tag-chip" type="button" data-tag="Summer">Summer</button>
+                <button class="tag-chip" type="button" data-tag="Fresh">Fresh</button>
+                <button class="tag-chip" type="button" data-tag="Sweet">Sweet</button>
+                <button class="tag-chip" type="button" data-tag="Woody">Woody</button>
+              </div>
+              <div class="shelf-toolbar">
+                <div class="shelf-filters" id="shelfFilters">
+                  <button class="filter-pill active" type="button" data-filter="All">All</button>
+                  <button class="filter-pill" type="button" data-filter="Owned">Owned</button>
+                  <button class="filter-pill" type="button" data-filter="Want">Want</button>
+                  <button class="filter-pill" type="button" data-filter="Sampled">Sampled</button>
+                </div>
+                <button class="secondary-button shelf-outfit-button" id="shelfOutfitButton" type="button">Build outfit scent</button>
+              </div>
+              <p class="shelf-hint" id="shelfHint">Save bottles, tag them, and build a more useful wardrobe.</p>
+              <div class="shelf-grid" id="shelfGrid"></div>
+            </article>
+
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <dialog class="fragrance-dialog" id="fragranceDialog">
+      <div class="dialog-content">
+        <button class="dialog-close" id="dialogClose" type="button" aria-label="Close fragrance details">×</button>
+        <div id="fragranceDetail"></div>
+      </div>
+    </dialog>
+
+    <div class="toast-region" id="toastRegion" aria-live="polite" aria-atomic="true"></div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

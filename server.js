@@ -244,7 +244,7 @@ function normalizeMarketResults(results = []) {
       delivery: item.delivery || item.extensions?.join(", "),
       product_link: item.product_link,
       link: item.product_link || item.link,
-      thumbnail: item.thumbnail,
+      thumbnail: safeImageUrl(item.thumbnail),
       rating: item.rating,
       reviews: item.reviews,
     }));
@@ -763,12 +763,18 @@ function getRouteQuery(requestUrl) {
   return (requestUrl.searchParams.get("query") || requestUrl.searchParams.get("q") || "").trim();
 }
 
+function safeImageUrl(url) {
+  if (!url || typeof url !== "string") return "";
+  return url.replace(/^http:\/\//i, "https://");
+}
+
 function imageMetaForProvider(imageUrl) {
+  const safe = safeImageUrl(imageUrl);
   return {
-    image_url: imageUrl || "",
-    image: imageUrl || "",
-    image_source: imageUrl ? "provider" : "placeholder",
-    image_confidence: imageUrl ? "high" : "fallback",
+    image_url: safe || "",
+    image: safe || "",
+    image_source: safe ? "provider" : "placeholder",
+    image_confidence: safe ? "high" : "fallback",
   };
 }
 

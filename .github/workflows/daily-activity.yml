@@ -1,0 +1,25 @@
+name: Daily activity
+
+on:
+  schedule:
+    # 13:00 UTC every day (~9am ET). GitHub may delay this by a few minutes.
+    - cron: "0 13 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  daily-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Update activity file and push
+        run: |
+          date -u +"%Y-%m-%dT%H:%M:%SZ" > .last-activity
+          git config user.name "Ibrahimahmed05"
+          git config user.email "ping.ibrahim.ahmed@gmail.com"
+          git add .last-activity
+          git commit -m "chore: daily activity $(date -u +%F)"
+          git push
